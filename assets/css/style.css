@@ -1,6 +1,46 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap");
 
+:root {
+  --primary-color: #2506ad;
+  --secondary-color: #ff7b00;
+  --bg-color1: #fc6adf;
+  --bg-color: #fff9f9;
+  --header-bg: #ffffff;
+  --text-color: #0e2431;
+  --heading-color: #202020;
+  --card-bg: #ffffff;
+  --shadow-color: rgba(146, 161, 176, 0.3);
+  --section-bg: #ffffff;
+  --footer-bg: #09011b;
+  --scrollbar-track: #ebcaf5;
+  --scrollbar-thumb: #420177;
+  --cursor-color: #6D30FB;
+  --section-accent: #6D30FB;
+  --skills-base: #F4F1FC;
+  --education-base: #FFF7F6;
+  --work-base: #FFF5F1;
+  --experience-base: #FFF3E0;
+  --contact-base: #F5F5F5;
+  --theme-purple: #6D30FB;
+  --theme-orange: #FF6914;
+  --particle-color: rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode {
+  --bg-color: #0E0E13;
+  --header-bg: #0E0E13;
+  --text-color: #e0e0e0;
+  --heading-color: #ffffff;
+  --card-bg: #1c1c2b;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --section-bg: #0E0E13;
+  --footer-bg: #050111;
+  --scrollbar-track: #1a1a3a;
+  --scrollbar-thumb: #57059e;
+  --particle-color: rgba(255, 255, 255, 0.7);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,19 +52,87 @@
   transition: all 0.2s linear;
 }
 
-html {
-  font-size: 62.5%;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+body {
+  background: var(--bg-color);
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-body {
-  background: #f7f7f7;
-  font-family: "Poppins", sans-serif;
+/* Custom Cursor */
+.cursor-dot,
+.cursor-outline {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 10000;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--cursor-color);
+  box-shadow: 0 0 15px var(--cursor-color);
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--cursor-color);
+  box-shadow: 0 0 30px var(--cursor-color);
+  backdrop-filter: blur(4px);
+  transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.3s ease;
+}
+
+/* Dodge Blob Styles */
+.dodge-blob {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: var(--section-accent);
+  opacity: 0.3;
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+  z-index: 1;
+}
+
+/* Theme Toggle Button Styles */
+#theme-toggle {
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--text-color);
+  margin-left: 2rem;
+  transition: 0.3s;
+}
+
+#theme-toggle:hover {
+  color: var(--secondary-color);
+  transform: rotate(360deg);
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.7rem 10%;
+  height: 6.5rem;
+  background-color: var(--header-bg);
+  box-shadow: 0 1px 4px var(--shadow-color);
 }
 
 *::selection {
-  background: #2b3dda;
+  background: var(--primary-color);
   color: #fff;
 }
 
@@ -38,11 +146,11 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-  background: rgb(235, 202, 245);
+  background: var(--scrollbar-track);
 }
 
 html::-webkit-scrollbar-thumb {
-  background: #420177;
+  background: var(--scrollbar-thumb);
 }
 
 /* pre loader start */
@@ -67,18 +175,12 @@ html::-webkit-scrollbar-thumb {
 
 /* navbar starts */
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.7rem 10%;
   height: 6.5rem;
-  background-color: #fff;
-  box-shadow: 0 1px 4px rgba(146, 161, 176, 0.3);
+  background-color: var(--header-bg);
+  box-shadow: 0 1px 4px var(--shadow-color);
 }
 
 section {
@@ -88,20 +190,21 @@ section {
 
 .heading {
   font-size: 3.5rem;
-  color: rgb(32, 32, 32);
+  color: var(--heading-color);
   font-weight: 800;
   text-align: center;
 }
 
 .heading span {
-  color: rgb(115, 3, 167);
+  color: var(--section-accent);
+  transition: color 0.5s ease;
 }
 
 header .logo {
   font-size: 1.9rem;
   font-weight: 800;
   text-decoration: none;
-  color: #0e2431;
+  color: var(--text-color);
 }
 
 header .logo i {
@@ -125,7 +228,7 @@ header .navbar li {
 
 header .navbar ul li a {
   font-size: 1.57rem;
-  color: #0e2431;
+  color: var(--text-color);
   font-weight: 600;
   text-decoration: none;
   letter-spacing: 0.04rem;
@@ -258,7 +361,7 @@ header .navbar ul li a:hover {
 .home .content h2 {
   font-size: 5rem;
   font-weight: 800;
-  color: #002057;
+  color: var(--heading-color);
 }
 
 .home .content h2 span {
@@ -269,7 +372,7 @@ header .navbar ul li a:hover {
 
 .home .content p {
   font-size: 2.5rem;
-  color: #000;
+  color: var(--text-color);
   font-weight: 600;
   padding: 1rem 0;
 }
@@ -404,7 +507,7 @@ header .navbar ul li a:hover {
 
 /* about section starts */
 .about {
-  background: rgb(255, 255, 255);
+  background: var(--section-bg);
 }
 
 .about .row {
@@ -435,19 +538,115 @@ header .navbar ul li a:hover {
   mix-blend-mode: normal;
 }
 
+/* Card Transition Effect */
+.card {
+  width: 300px;
+  height: 455px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 36px;
+  perspective: 2500px;
+  cursor: pointer;
+  border-radius: 30px;
+  margin: 0 auto;
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+}
+
+.wrapper {
+  transition: all 0.5s;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  background: #000;
+  border-radius: 30px;
+  box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.card:hover .wrapper {
+  transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
+  box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+}
+
+.wrapper::before,
+.wrapper::after {
+  content: "";
+  opacity: 0;
+  width: 100%;
+  height: 120px;
+  transition: all 0.5s;
+  position: absolute;
+  left: 0;
+}
+
+.wrapper::before {
+  top: 0;
+  height: 100%;
+  background-image: linear-gradient(to top,
+      transparent 46%,
+      rgba(12, 13, 19, 0.5) 68%,
+      rgba(12, 13, 19) 97%);
+}
+
+.wrapper::after {
+  bottom: 0;
+  opacity: 1;
+  background-image: linear-gradient(to bottom,
+      transparent 46%,
+      rgba(12, 13, 19, 0.5) 68%,
+      rgba(12, 13, 19) 97%);
+}
+
+.card:hover .wrapper::before,
+.wrapper::after {
+  opacity: 1;
+}
+
+.card:hover .wrapper::after {
+  height: 120px;
+}
+
+.character {
+  width: 90%;
+  opacity: 0;
+  transition: all 0.5s;
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  margin-bottom: 16rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card:hover .character {
+  opacity: 1;
+  transform: translate3d(-50%, 5%, 150px) scale(2);
+}
+
 .about .row .content {
   flex: 1 1 45rem;
   padding: 3rem;
 }
 
 .about .row .content h3 {
-  color: rgb(27, 27, 27);
+  color: var(--heading-color);
   font-size: 2.5rem;
 }
 
 .about .row .content .tag {
   font-size: 1.4rem;
-  color: #020133;
+  color: var(--primary-color);
   font-weight: 600;
   margin-top: 1rem;
 }
@@ -542,11 +741,17 @@ header .navbar ul li a:hover {
 /* skills section starts */
 .skills {
   min-height: 90vh;
-  background: linear-gradient(to bottom, #57059e, #4a00e0);
+  background: linear-gradient(135deg, var(--skills-base) 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .skills {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--skills-base), black 65%), #0E0E13 100%);
 }
 
 .skills h2 {
-  color: #fff;
+  color: #ff0000;
 }
 
 .skills .heading span {
@@ -628,8 +833,14 @@ header .navbar ul li a:hover {
 
 /* education section starts */
 .education {
-  background: #e5ecfb;
+  background: linear-gradient(135deg, var(--education-base) 0%, #ffffff 100%);
   min-height: 80vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .education {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--education-base), black 65%), #0E0E13 100%);
 }
 
 .education .qoute {
@@ -659,7 +870,7 @@ header .navbar ul li a:hover {
   margin-top: 2rem;
   overflow: hidden;
   transition: 0.3s;
-  background: rgb(252, 252, 252);
+  background: var(--card-bg);
 }
 
 .education .box-container .box:hover {
@@ -751,11 +962,17 @@ header .navbar ul li a:hover {
 /* work section starts */
 .work {
   /* background: #010124; */
-  background: linear-gradient(to bottom, #000031, #00002c);
+  background: linear-gradient(135deg, var(--work-base) 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .work {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--work-base), black 65%), #0E0E13 100%);
 }
 
 .work h2 {
-  color: #fff;
+  color: #f22828;
   padding: 1rem;
 }
 
@@ -791,7 +1008,7 @@ header .navbar ul li a:hover {
   position: absolute;
   top: 85%;
   left: 0;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--card-bg);
   display: flex;
   flex-direction: column;
 }
@@ -890,6 +1107,16 @@ header .navbar ul li a:hover {
 /* work section ends */
 
 /* experience section starts */
+.experience {
+  background: linear-gradient(135deg, var(--experience-base) 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .experience {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--experience-base), black 65%), #0E0E13 100%);
+}
+
 .experience .timeline {
   position: relative;
   max-width: 1200px;
@@ -1091,14 +1318,20 @@ header .navbar ul li a:hover {
 
 /* contact section starts */
 .contact {
-  background: #e5ecfb;
+  background: linear-gradient(135deg, var(--contact-base) 0%, #ffffff 100%);
   min-height: 60vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .contact {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--contact-base), black 65%), #0E0E13 100%);
 }
 
 .contact .container {
   max-width: 1050px;
   width: 100%;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 1.5rem;
   margin: 2rem 5rem;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
@@ -1145,7 +1378,7 @@ form i {
   position: absolute;
   top: 50%;
   left: 18px;
-  color: rgb(51, 51, 51);
+  color: var(--text-color);
   font-size: 17px;
   pointer-events: none;
   transform: translateY(-50%);
@@ -1160,13 +1393,15 @@ form .message textarea {
   font-size: 16px;
   font-family: "Poppins", sans-serif;
   border-radius: 5px;
-  border: 1px solid rgb(51, 51, 51);
-  background: #e5ecfb;
+  border: 1px solid var(--text-color);
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 .field input::placeholder,
 .message textarea::placeholder {
-  color: rgb(51, 51, 51);
+  color: var(--text-color);
+  opacity: 0.7;
 }
 
 .field input:focus,
@@ -1278,7 +1513,7 @@ form .button-area {
 .footer {
   min-height: auto;
   padding-top: 0;
-  background: rgb(0, 1, 43);
+  background: var(--footer-bg);
 }
 
 .footer .box-container {

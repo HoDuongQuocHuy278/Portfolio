@@ -249,3 +249,182 @@ srtop.reveal('.experience .timeline .container', { interval: 400 });
 /* SCROLL CONTACT */
 srtop.reveal('.contact .container', { delay: 400 });
 srtop.reveal('.contact .container .form-group', { delay: 400 });
+
+// Custom Cursor Logic
+const dot = document.querySelector('.cursor-dot');
+const outline = document.querySelector('.cursor-outline');
+
+window.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    dot.style.left = `${posX}px`;
+    dot.style.top = `${posY}px`;
+
+    outline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+    }, { duration: 500, fill: "forwards" });
+});
+
+// Theme Toggle Logic
+const themeToggle = document.querySelector('#theme-toggle');
+const body = document.querySelector('body');
+
+// Check for saved theme
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark') {
+    body.classList.add('dark-mode');
+    themeToggle.classList.replace('fa-moon', 'fa-sun');
+    // Initialize hero particles in white for dark mode
+    if (typeof initHeroParticles === 'function') {
+        initHeroParticles("#ffffff");
+    }
+}
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+
+    if (body.classList.contains('dark-mode')) {
+        themeToggle.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'dark');
+        if (typeof initHeroParticles === 'function') {
+            initHeroParticles("#ffffff");
+        }
+    } else {
+        themeToggle.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'light');
+        if (typeof initHeroParticles === 'function') {
+            initHeroParticles("#000000");
+        }
+    }
+});
+
+// Add hover effect to interactive elements for the cursor
+document.querySelectorAll('a, button, .btn, .card').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+        outline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        outline.style.background = 'rgba(255, 255, 255, 0.1)';
+        outline.style.border = 'none';
+    });
+    link.addEventListener('mouseleave', () => {
+        outline.style.transform = 'translate(-50%, -50%) scale(1)';
+        outline.style.background = 'transparent';
+        outline.style.border = '2px solid var(--cursor-color)';
+    });
+});
+
+// Dynamic Section Color Tracking
+const colorMap = {
+    'home': { cursor: '#6D30FB', accent: '#6D30FB' },
+    'about': { cursor: '#AB33F5', accent: '#AB33F5' },
+    'skills': { cursor: '#6D30FB', accent: '#6D30FB' },
+    'education': { cursor: '#FF6914', accent: '#FF6914' },
+    'work': { cursor: '#AB33F5', accent: '#AB33F5' },
+    'experience': { cursor: '#FF6914', accent: '#FF6914' },
+    'contact': { cursor: '#6D30FB', accent: '#6D30FB' }
+};
+
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const theme = colorMap[id];
+            if (theme) {
+                document.documentElement.style.setProperty('--cursor-color', theme.cursor);
+                document.documentElement.style.setProperty('--section-accent', theme.accent);
+            }
+        }
+    });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('section').forEach(section => {
+    sectionObserver.observe(section);
+});
+
+// Particle Network (Constellation Effect)
+class ParticleNetwork {
+    constructor(sectionId) {
+        this.section = document.getElementById(sectionId);
+        if (!this.section) return;
+
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.top = '0';
+        this.canvas.style.left = '0';
+        this.canvas.style.width = '100%';
+        this.canvas.style.height = '100%';
+        this.canvas.style.zIndex = '0';
+        this.canvas.style.pointerEvents = 'none';
+        this.section.appendChild(this.canvas);
+
+        this.particles = [];
+        this.particleCount = 20;
+        this.resize();
+
+        window.addEventListener('resize', () => this.resize());
+        this.animate();
+    }
+
+    resize() {
+        this.width = this.canvas.width = this.section.offsetWidth;
+        this.height = this.canvas.height = this.section.offsetHeight;
+        this.initParticles();
+    }
+
+    initParticles() {
+        this.particles = [];
+        for (let i = 0; i < this.particleCount; i++) {
+            this.particles.push({
+                x: Math.random() * this.width,
+                y: Math.random() * this.height,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5,
+                size: Math.random() * 2 + 1
+            });
+        }
+    }
+
+    animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        const particleColor = getComputedStyle(document.body).getPropertyValue('--particle-color').trim() || 'rgba(0,0,0,0.3)';
+
+        for (let i = 0; i < this.particles.length; i++) {
+            let p = this.particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0 || p.x > this.width) p.vx *= -1;
+            if (p.y < 0 || p.y > this.height) p.vy *= -1;
+
+            this.ctx.fillStyle = particleColor;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            for (let j = i + 1; j < this.particles.length; j++) {
+                let p2 = this.particles[j];
+                const dx = p.x - p2.x;
+                const dy = p.y - p2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 120) {
+                    this.ctx.strokeStyle = particleColor;
+                    this.ctx.globalAlpha = 1 - (dist / 120);
+                    this.ctx.lineWidth = 0.5;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(p.x, p.y);
+                    this.ctx.lineTo(p2.x, p2.y);
+                    this.ctx.stroke();
+                    this.ctx.globalAlpha = 1;
+                }
+            }
+        }
+        requestAnimationFrame(() => this.animate());
+    }
+}
+
+// Initialize for each section
+const networkSections = ['skills', 'education', 'work', 'experience', 'contact'];
+networkSections.forEach(id => new ParticleNetwork(id));
