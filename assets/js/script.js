@@ -32,9 +32,12 @@ $(document).ready(function () {
     // smooth scrolling
     $('a[href*="#"]').on('click', function (e) {
         e.preventDefault();
-        $('html, body').animate({
-            scrollTop: $($(this).attr('href')).offset().top,
-        }, 500, 'linear')
+        const target = $(this).attr('href');
+        if ($(target).length) {
+            $('html, body').animate({
+                scrollTop: $(target).offset().top - $('header').outerHeight() - 40,
+            }, 500, 'linear');
+        }
     });
 
     // <!-- emailjs to mail contact form data -->
@@ -79,15 +82,27 @@ var typed = new Typed(".typing-text", {
 });
 // <!-- typed js effect ends -->
 
-async function fetchData(type = "skills") {
-    let response
-    type === "skills" ?
-        response = await fetch("skills.json")
-        :
-        response = await fetch("./projects/projects.json")
-    const data = await response.json();
-    return data;
-}
+// Skills data (inline to avoid fetch issues with file:// protocol)
+const skillsData = [
+    { name: "Vuejs", icon: "https://img.icons8.com/?size=48&id=BUnExfsRs3CW&format=png&color=000000" },
+    { name: "Laravel", icon: "https://img.icons8.com/?size=48&id=hUvxmdu7Rloj&format=png&color=000000" },
+    { name: "Python", icon: "https://img.icons8.com/color/48/000000/python--v1.png" },
+    { name: "NodeJS", icon: "https://img.icons8.com/color/48/000000/nodejs.png" },
+    { name: "React Native", icon: "https://img.icons8.com/color/48/000000/react-native.png" },
+    { name: "Firebase", icon: "https://img.icons8.com/color/48/000000/firebase.png" },
+    { name: "Bootstrap", icon: "https://img.icons8.com/color/48/000000/bootstrap.png" },
+    { name: "HTML5", icon: "https://img.icons8.com/color/48/000000/html-5--v1.png" },
+    { name: "CSS3", icon: "https://img.icons8.com/color/48/000000/css3.png" },
+    { name: "JavaScript", icon: "https://img.icons8.com/color/48/000000/javascript--v1.png" },
+    { name: "Java", icon: "https://img.icons8.com/color/48/000000/java-coffee-cup-logo--v1.png" },
+    { name: "C++", icon: "https://img.icons8.com/color/48/000000/c-plus-plus-logo.png" },
+    { name: "MongoDB", icon: "https://img.icons8.com/color/48/000000/mongodb.png" },
+    { name: "MySQL", icon: "https://img.icons8.com/color/48/000000/mysql-logo.png" },
+    { name: "jQuery", icon: "https://img.icons8.com/ios-filled/48/1169ae/jquery.png" },
+    { name: "Git VCS", icon: "https://img.icons8.com/color/48/000000/git.png" },
+    { name: "GitHub", icon: "https://img.icons8.com/glyph-neue/48/ffffff/github.png" },
+    { name: "WordPress", icon: "https://img.icons8.com/color/48/000000/wordpress.png" }
+];
 
 function showSkills(skills) {
     let skillsContainer = document.getElementById("skillsContainer");
@@ -104,51 +119,8 @@ function showSkills(skills) {
     skillsContainer.innerHTML = skillHTML;
 }
 
-// function showProjects(projects) {
-//     let projectsContainer = document.querySelector("#work .box-container");
-//     let projectHTML = "";
-//     projects.slice(0, 10).filter(project => project.category != "android").forEach(project => {
-//         projectHTML += `
-//         <div class="box tilt">
-//       <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="project" />
-//       <div class="content">
-//         <div class="tag">
-//         <h3>${project.name}</h3>
-//         </div>
-//         <div class="desc">
-//           <p>${project.desc}</p>
-//           <div class="btns">
-//             <a href="${project.links.view}" class="btn" target="_blank"><i class="fas fa-eye"></i> View</a>
-//             <a href="${project.links.code}" class="btn" target="_blank">Code <i class="fas fa-code"></i></a>
-//           </div>
-//         </div>
-//       </div>
-//     </div>`
-//     });
-//     projectsContainer.innerHTML = projectHTML;
-
-//     // <!-- tilt js effect starts -->
-//     VanillaTilt.init(document.querySelectorAll(".tilt"), {
-//         max: 15,
-//     });
-//     // <!-- tilt js effect ends -->
-
-//     /* ===== SCROLL REVEAL ANIMATION ===== */
-//     const srtop = ScrollReveal({
-//         origin: 'top',
-//         distance: '80px',
-//         duration: 1000,
-//         reset: true
-//     });
-
-//     /* SCROLL PROJECTS */
-//     srtop.reveal('.work .box', { interval: 200 });
-
-// }
-
-fetchData().then(data => {
-    showSkills(data);
-});
+// Load skills directly
+showSkills(skillsData);
 
 // fetchData("projects").then(data => {
 //     showProjects(data);

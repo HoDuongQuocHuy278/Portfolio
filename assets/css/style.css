@@ -348,7 +348,8 @@ header .navbar ul li a:hover {
 
 .home .image img {
   width: 70%;
-  margin-left: 6rem;
+  margin: 0 auto;
+  display: block;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   cursor: pointer;
@@ -482,15 +483,21 @@ header .navbar ul li a:hover {
 /* hero media queries starts*/
 @media (max-width: 450px) {
   .home .btn {
-    margin: 4rem 0;
+    position: relative;
+    margin: 2rem 0;
   }
 
   .socials {
-    margin-top: 12rem;
+    margin-top: 4rem;
+  }
+
+  .home .image {
+    text-align: center;
   }
 
   .home .image img {
-    margin-top: -12rem;
+    width: 60%;
+    margin: 2rem auto;
   }
 
   .home .content p {
@@ -499,6 +506,14 @@ header .navbar ul li a:hover {
 
   .home .content p span {
     font-size: 2.2rem;
+  }
+
+  .home .content h2 {
+    font-size: 3.5rem;
+  }
+
+  .home .content h2 span {
+    font-size: 3.5rem;
   }
 }
 
@@ -541,6 +556,7 @@ header .navbar ul li a:hover {
 /* Card Transition Effect */
 .card {
   width: 300px;
+  max-width: 100%;
   height: 455px;
   position: relative;
   display: flex;
@@ -551,6 +567,7 @@ header .navbar ul li a:hover {
   cursor: pointer;
   border-radius: 30px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .cover-image {
@@ -834,7 +851,7 @@ body.dark-mode .skills {
 /* education section starts */
 .education {
   background: linear-gradient(135deg, var(--education-base) 0%, #ffffff 100%);
-  min-height: 80vh;
+  min-height: 100vh;
   position: relative;
   overflow: hidden;
 }
@@ -993,6 +1010,7 @@ body.dark-mode .work {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  min-height: 30rem;
   height: 30rem;
 }
 
@@ -1102,6 +1120,63 @@ body.dark-mode .work {
 
 .work .viewall .btn:hover i {
   transform: translateX(5px);
+}
+
+/* work section mobile fix */
+@media screen and (max-width: 600px) {
+  .work .box-container {
+    margin: 1rem 0;
+    gap: 1.5rem;
+  }
+
+  .work .box-container .box {
+    flex: 1 1 100%;
+    height: auto;
+    min-height: auto;
+  }
+
+  .work .box-container .box img {
+    height: 20rem;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .work .box-container .box .content {
+    position: relative;
+    top: 0;
+  }
+
+  .work .box-container .box:hover .content {
+    top: 0;
+  }
+
+  .work .box-container .box .content .tag {
+    height: auto;
+    padding: 1rem;
+  }
+
+  .work .box-container .box .content .tag h3 {
+    font-size: 1.6rem;
+  }
+
+  .work .desc {
+    margin: 1rem;
+  }
+
+  .work .desc p {
+    font-size: 1.3rem;
+  }
+
+  .work .desc .btns {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .work .desc .btns .btn {
+    margin-right: 0;
+    padding: 1.2rem 2rem;
+    font-size: 1.3rem;
+  }
 }
 
 /* work section ends */
@@ -1319,7 +1394,7 @@ body.dark-mode .experience {
 /* contact section starts */
 .contact {
   background: linear-gradient(135deg, var(--contact-base) 0%, #ffffff 100%);
-  min-height: 60vh;
+  min-height: 100vh;
   position: relative;
   overflow: hidden;
 }
@@ -1333,7 +1408,7 @@ body.dark-mode .contact {
   width: 100%;
   background: var(--card-bg);
   border-radius: 1.5rem;
-  margin: 2rem 5rem;
+  margin: 2rem auto;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -1669,3 +1744,57 @@ form .button-area {
 }
 
 /* scroll top ends */
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+
+  .cursor-dot,
+  .cursor-outline {
+    display: none !important;
+  }
+}
+
+/* Additional mobile fixes */
+@media screen and (max-width: 768px) {
+  .home .content h2 {
+    font-size: 3.8rem;
+  }
+
+  .home .content h2 span {
+    font-size: 3.8rem;
+  }
+
+  section {
+    padding: 2rem 5%;
+  }
+
+  .heading {
+    font-size: 3rem;
+  }
+
+  .card {
+    width: 250px;
+    height: 380px;
+    padding: 0 20px;
+  }
+
+  .about .row {
+    padding: 2rem 1rem;
+  }
+
+  .about .row .content {
+    padding: 2rem 1rem;
+  }
+
+  .about .row .content h3 {
+    font-size: 2.2rem;
+  }
+
+  .education .box-container .box {
+    width: 95%;
+  }
+
+  .education .box-container .box .content h3 {
+    font-size: 2rem;
+  }
+}
